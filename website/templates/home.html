@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="background_image">
+    <img src="static/images/Home_page_background.jpeg" class="rounded .img-fluid" alt="Home page image">
+</div>
+<form method="POST">
+    <h3 align="center">New Event</h3>
+    <div class="form-group">
+        <label for="event_title">Title</label>
+        <input type="text" class="form-control" id="event_title" name="event_title" placeholder="Event title"/>
+    </div>
+    <div class="form-group">
+        <label for="event_date">Date</label>
+        <input type="date" class="form-control" id="event_date" name="event_date" placeholder="Date"/>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" class="form-control" placeholder="Write the event description."></textarea>
+    </div>
+    <div class="form-group">
+        <label for="image">Choose an Image</label>
+        <input type="file" class="form-control" id="file" class="form-control"/>
+    </div>
+</br  >
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>
+{% endblock %}
