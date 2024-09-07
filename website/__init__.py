@@ -3,11 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from os import getenv
 from flask_login import LoginManager
 from dotenv import load_dotenv
+from flask_migrate import Migrate
 
 
 load_dotenv()  # Load environment variables from a .env file
 
-db = SQLAlchemy()
+db = SQLAlchemy() 
 
 
 # Fetch environment variables
@@ -25,16 +26,19 @@ def create_app():
 
     # Set up the configuration
     app.config['SECRET_KEY'] = 'MY KEY SECRET'
+    app.config['UPLOAD_FOLDER'] = getenv('UPLOAD_FOLDER')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@{}/{}'.format(EVENT_NAVIGATOR_USER,
                     EVENT_NAVIGATOR_PWD,
                     EVENT_NAVIGATOR_HOST,
                     EVENT_NAVIGATOR_DB
                     )
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
     # Initialize the database with the app
     db.init_app(app)
 
+    migrate = Migrate(app, db)
 
     from .views import views
     from .auth import auth
@@ -47,10 +51,11 @@ def create_app():
     from .models import User
 
     # Ensure the tables are created
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #    db.create_all()
 
 
+    # Setup LoginManager
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Manage Categories{% endblock %}
+{% block content %}
+<div class="container">
+    <h3>Manage Categories</h3>
+    <form method="POST" class="container">
+        <div class="form-group">
+            <label for="category_name">Add New Category</label>
+            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Category Name" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Category</button>
+    </form>
+
+    <!-- Display existing categories -->
+    <h4>Existing Categories:</h4>
+    <ul>
+        {% for category in categories %}
+        <li>{{ category.category_name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,3 +1,18 @@
-__pycache__
-website/__pycache__
-migrations
+# Ignore __pycache__ directories
+__pycache__/
+*.swp
+
+# Ignore Python bytecode files
+*.pyc
+*.pyo
+*.pyd
+website/__pycache__/
+
+# Ignore migration files and folders
+migrations/
+alembic/
+*.db
+
+# Ignore . file
+.env
+.bashrc

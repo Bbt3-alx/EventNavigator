@@ -1,28 +1,106 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<div class="background_image">
-    <img src="static/images/Home_page_background.jpeg" class="rounded .img-fluid" alt="Home page image">
-</div>
-<form method="POST">
-    <h3 align="center">New Event</h3>
-    <div class="form-group">
-        <label for="event_title">Title</label>
-        <input type="text" class="form-control" id="event_title" name="event_title" placeholder="Event title"/>
-    </div>
-    <div class="form-group">
-        <label for="event_date">Date</label>
-        <input type="date" class="form-control" id="event_date" name="event_date" placeholder="Date"/>
-    </div>
-    <div class="form-group">
-        <label for="description">Description</label>
-        <textarea name="description" id="description" class="form-control" placeholder="Write the event description."></textarea>
-    </div>
-    <div class="form-group">
-        <label for="image">Choose an Image</label>
-        <input type="file" class="form-control" id="file" class="form-control"/>
-    </div>
-</br  >
-    <button type="submit" class="btn btn-primary">Post</button>
+
+  <!-- Video Background Section with Text Overlay -->
+<section class="video-section position-relative">
+  <video autoplay loop muted playsinline class="video-background">
+      <source src="{{ url_for('static', filename='videos/lending_video.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+  </video>
+  <div class="overlay-content text-center">
+      <h1 class="display-4 text-white">Navigate Your Way to the Best Events</h1>
+      <p class="lead text-white">Stay updated with exciting events near you or share your own events with others, all in one place.</p>
+  </div>
+</section>
+
+
+<!-- Search Bar with Filters -->
+<form method="GET" action="{{ url_for('views.home') }}" class="d-flex container" role="search">
+  <div class="input-group mb-3">
+      <input style="display: block;" type="text" class="form-control me-2 search-input" placeholder="Search events by title or description..." name="search_query" value="{{ request.args.get('search_query', '') }}">
+      <select class="form-select me-2" name="category">
+          <option value="">All Categories</option>
+          <!-- Add category options dynamically -->
+      </select>
+      <button class="btn btn-outline-success search-button" type="submit">Search</button>
+  </div>
 </form>
+
+</br>
+<!-- Events Section -->
+<div class="discovery container">
+  <h2>Discover Events</h2>
+  <div class="separator container"></div>
+</div>
+</br>
+<div class="row row-cols-1 row-cols-md-3 g-4 container">
+  {% if events %}
+    {% for event in events %}
+      <div class="col">
+        <div class="card text-center h-100">
+          <a href="{{ url_for('views.event', id=event.id) }}">
+            <img src="{{ event.event_image if event.event_image.startswith('http') else url_for('static', filename='uploads/' + event.event_image) or url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">{{ event.title }}</h5>
+            <p class="card-text">{{ event.description[:50] }}...</p>
+            <p class="card-text"><i class="fas fa-calendar-alt"></i> {{ event.date }}</p>
+            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
+            <a href="{{ url_for('views.event', id=event.id) }}" class="btn btn-primary">Show Event</a>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated {{ event.updated_at }}</small>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <h3>Oops! There are no events available right now.</h3>
+  {% endif %}
+</div>
+
+<!--Skills and Expertise-->
+<section id="skills" class="skills-section text-center py-5">
+  <div class="container">
+      <h2>Skills & Expertise</h2>
+      <div class="row">
+          <div class="col-lg-3 col-md-6">
+              <i class="fas fa-code skill-icon"></i>
+              <h4>Programming</h4>
+              <p>Python, JavaScript, HTML/CSS, Flask</p>
+          </div>
+          <div class="col-lg-3 col-md-6">
+              <i class="fas fa-database skill-icon"></i>
+              <h4>Database Management</h4>
+              <p>MySQL, SQLAlchemy, PostgreSQL</p>
+          </div>
+          <div class="col-lg-3 col-md-6">
+              <i class="fas fa-cloud skill-icon"></i>
+              <h4>Cloud & DevOps</h4>
+              <p>AWS, Docker, Nginx, CI/CD</p>
+          </div>
+          <div class="col-lg-3 col-md-6">
+              <i class="fas fa-tools skill-icon"></i>
+              <h4>Tools & Frameworks</h4>
+              <p>Git, Jinja2, Bootstrap, Fabric</p>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!--Contac information-->
+<section id="contact" class="contact-section text-center py-5">
+  <div class="container">
+      <h2>Contact Me</h2>
+      <p>If you'd like to discuss a project or just want to say hello, feel free to reach out!</p>
+      <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> Email: brehymatraore50@gmail.com</p>
+          <p><i class="fas fa-phone"></i> Phone: +223-94-16-99-59</p>
+          <p><i class="fas fa-map-marker-alt"></i> Location: Bamako, Mali</p>
+      </div>
+      <a href="mailto:brehymatraore50@gmail.com" class="btn btn-primary">Get in Touch</a>
+  </div>
+</section>
+
 {% endblock %}

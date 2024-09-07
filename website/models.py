@@ -45,15 +45,22 @@ class User(BaseModel):
     email = db.Column(db.String(128), unique=True)
     password = db.Column(db.String(128))
     user_image = db.Column(db.String(256))
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
     registrations = db.relationship('Registration')
     events = db.relationship('Event', backref='creator')
     
-    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
 class Category(BaseModel):
     """Categories table"""
     __tablename__ = 'categories'
     category_name = db.Column(db.String(128))
     events = db.relationship('Event', backref='category')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     
 class Event(BaseModel):
@@ -68,6 +75,9 @@ class Event(BaseModel):
     locations_id = db.Column(db.String(60), db.ForeignKey('locations.id'))
     registrations = db.relationship('Registration', backref='event')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 class Location(BaseModel):
     """The location table"""
@@ -80,6 +90,9 @@ class Location(BaseModel):
     longitude = db.Column(db.Float)
     events = db.relationship('Event', backref='location')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 class Registration(BaseModel):
     """Table registration"""
@@ -87,3 +100,6 @@ class Registration(BaseModel):
     registrered_at = db.Column(db.DateTime, default = datetime.now())
     user_id = db.Column(db.String(60), db.ForeignKey('users.id'))
     event_id = db.Column(db.String(60), db.ForeignKey('events.id'))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
