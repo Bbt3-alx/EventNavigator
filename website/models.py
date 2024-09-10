@@ -52,6 +52,10 @@ class User(BaseModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    @property
+    def is_active(self):
+        # Define your logic to check if the user is active
+        return True  
 
 class Category(BaseModel):
     """Categories table"""

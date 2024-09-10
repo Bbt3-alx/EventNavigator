@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-
-  <div class="card border-secondary mb-3 container" style="max-width: 100%;">
+<div class="container d-flex justify-content-center">
+  <div class="card border-secondary container mb-3" style="max-width: 100%;">
     <div class="row g-0">
       <div class="col-md-4">
-        <img src="{{ url_for('static', filename='uploads/' + event.event_image) }}" class="img-fluid rounded-start" alt="event image">
+        <img src="{{ event.event_image if event.event_image.startswith('http') else url_for('static', filename='uploads/' + event.event_image) or url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
       </div>
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title">{{ event.title }}</h5>
-          <p class="card-text">{{ event.description[:30] }}</p>
+          <p class="card-text">{{ event.description }}</p>
           <p class="card-text"><small class="text-body-secondary">Last update {{ event.updated_at }} </small></p>
           <p class="card-text"><small class="text-body-primary">Posted by {{ user.user_name }} </small></p>
         </div>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

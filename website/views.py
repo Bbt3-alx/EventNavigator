@@ -87,7 +87,7 @@ def create_event():
                 return redirect(url_for('views.home'))
             except Exception as e:
                 db.session.rollback()
-                flash(f'An error occurred: {str(e)}', 'error')
+                flash(f'An unknown error occurred', 'error')
                 return redirect(url_for('views.create_event'))
         else:
             flash('Event creation failed. Please provide a valid image or link.', 'error')

@@ -59,7 +59,7 @@ def sign_up():
         user = User.query.filter_by(email=email).first()
 
         if user:
-            flash(f'{email} already exists !', category='error')
+            flash(f'{email} already exists. ', category='info')
         elif len(email) < 5:
             flash("Your email is too short, try again !", category='error')
         elif not re.match(email_match, email):
@@ -81,7 +81,51 @@ def sign_up():
             )
             db.session.add(new_user)
             db.session.commit()
-            login_user(user, remember=True)
             flash("Account created !", category='success')
             return redirect(url_for('views.home'))
     return render_template("sign_up.html", user=current_user)
+
+auth.route('/profile/<id>', methods=['GET', 'POST'])
+login_required
+def profile(id):
+    """Manage user profile"""
+    user = User.query.filter_by(id=id).first()
+
+    if user:
+        if request.method == 'POST':
+            user_name = request.form.get('user_name')
+            email = request.form.get('email')
+            old_password = request.form.get('old_pasword')
+            new_password = request.form.get('new_password')
+            confirm_password = request.form.get('confirm_pasword')
+
+            user.user_name = user_name
+            user.email = email
+            if check_password_hash(old_password) != check_password_hash(user.password):
+                flash('Incorect password, please enter your old password.', category='error')
+            elif check_password_hash(old_password) == generate_password_hash(new_password):
+                flash('There is no difference between the old and the new password !', category='error')
+            elif new_password != confirm_password:
+                flash('Password are not same, please try again!', category='error')
+            else:
+                user.password = new_password
+            
+            db.session.add(user)
+
+            try:
+                db.session.commit()
+                flash('Profile updated !', category='success')
+                return redirect(url_for('profile'))
+            except Exception as e:
+                flash('An exception occured.', category='error')
+                return redirect(url_for('profile'))
+        else:
+            user = User.query.all()
+            my_events = Event.query.filter_by(created_by=id).all()
+    flash('This user don\'t exist !', category='error')
+
+    return render_template('profile.html', user=user, my_events=my_events)
+            
+
+            
+

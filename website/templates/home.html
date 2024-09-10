@@ -20,7 +20,7 @@
   <div class="input-group mb-3">
       <input style="display: block;" type="text" class="form-control me-2 search-input" placeholder="Search events by title or description..." name="search_query" value="{{ request.args.get('search_query', '') }}">
       <select class="form-select me-2" name="category">
-          <option value="">All Categories</option>
+            <option value="">All Categories</option>
           <!-- Add category options dynamically -->
       </select>
       <button class="btn btn-outline-success search-button" type="submit">Search</button>
@@ -34,7 +34,7 @@
   <div class="separator container"></div>
 </div>
 </br>
-<div class="row row-cols-1 row-cols-md-3 g-4 container">
+<div class="row row-cols-1 row-cols-md-3 g-4 container col-card">
   {% if events %}
     {% for event in events %}
       <div class="col">
@@ -68,7 +68,7 @@
           <div class="col-lg-3 col-md-6">
               <i class="fas fa-code skill-icon"></i>
               <h4>Programming</h4>
-              <p>Python, JavaScript, HTML/CSS, Flask</p>
+              <p>C, Python, JavaScript, HTML/CSS, Flask</p>
           </div>
           <div class="col-lg-3 col-md-6">
               <i class="fas fa-database skill-icon"></i>
@@ -78,7 +78,7 @@
           <div class="col-lg-3 col-md-6">
               <i class="fas fa-cloud skill-icon"></i>
               <h4>Cloud & DevOps</h4>
-              <p>AWS, Docker, Nginx, CI/CD</p>
+              <p>Docker, Nginx, CI/CD</p>
           </div>
           <div class="col-lg-3 col-md-6">
               <i class="fas fa-tools skill-icon"></i>
@@ -91,6 +91,9 @@
 
 <!--Contac information-->
 <section id="contact" class="contact-section text-center py-5">
+  <div class="my_pic">
+    <img src="../static/uploads/Sidiki.jpg"/>
+  </div>
   <div class="container">
       <h2>Contact Me</h2>
       <p>If you'd like to discuss a project or just want to say hello, feel free to reach out!</p>
