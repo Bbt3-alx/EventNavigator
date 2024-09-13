@@ -4,21 +4,20 @@
 <div class="container d-flex justify-content-center">
     <form method="POST" enctype="multipart/form-data">
         <h3 align="center">Edit Event</h3>
-        {% if events %}
-        {% for event in events %}
+        {% if event %}
         <div class="form-group">
             <label for="event_title">Title</label>
-            <input type="text" class="form-control" id="event_title" name="event_title" placeholder="{{event.title}}" required/>
+            <input type="text" class="form-control" id="event_title" name="event_title" value="{{ event.title  }}" placeholder="Event title" required/>
         </div>
     
         <div class="form-group">
             <label for="event_date">Date</label>
-            <input type="date" class="form-control" id="event_date" name="event_date" placeholder="{{event.date}}" required/>
+            <input type="date" class="form-control" id="event_date" name="event_date" value="{{ event.date }}" placeholder="Event date" required/>
         </div>
     
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea name="description" id="description" class="form-control" placeholder="{{event.description}}" required></textarea>
+            <textarea name="description" id="description" class="form-control" placeholder="Enter event description" required>{{ event.description }}</textarea>
         </div>
     
         <div class="form-group">
@@ -39,7 +38,8 @@
             </div>
         </div>
     </br  >
-        <button type="submit" class="btn btn-primary">Post</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+        {% endif %}
     </form>
 </div>
 
