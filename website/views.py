@@ -13,21 +13,33 @@ views = Blueprint('views', __name__, static_folder="static", template_folder="te
 
 @views.route('/', methods=['GET', 'POST'])
 def home():
-    search_query = request.args.get('search_query')
-    
+    search_query = request.args.get('search_query', '')
+    selected_category = request.args.get('categry', '')
+
+    # Start with all events
+    events = Event.query
+
+    # If there's a search query, filter events by title or description
     if search_query:
-        events = Event.query.filter(
+        events = events.filter(
             or_(
                 Event.title.ilike(f'%{search_query}%'), 
                 Event.description.ilike(f'%{search_query}%')
             )
-        ).all()
-    else:
-        events = Event.query.all()
+        )
     
-    slides = Event.query.order_by(func.random()).all()
+    # If a category is selected, filter by category
+    if selected_category:
+        events = events.filter_by(category_id=selected_category)
+    
+    # Execute query to get filtered events
+    events = events.all()
 
-    return render_template("home.html", user=current_user, events=events, slides=slides)
+    # Fetch all categories to populate the dropdown
+    categories = Category.query.all()
+    # slides = Event.query.order_by(func.random()).all()
+
+    return render_template("home.html", user=current_user, events=events, categories=categories)
 
 
 @views.route('/create_event', methods=['GET', 'POST'])
@@ -96,16 +108,17 @@ def create_event():
     return render_template("create_event.html", categories=categories, user=current_user)
 
 
-@views.route('/update_event/<id>', methods=['POST'])
+@views.route('/update_event/<id>', methods=['GET', 'POST'])
 @login_required
 def update_event(id):
     """Update an event"""
+    event = Event.query.filter_by(id=id).first()
+    
     if request.method == 'POST':
-        event = Event.query.filter_by(id=id).first()
 
         if not event:
             flash('Event not found', category='error')
-            return redirect(urlparse('views.home'))
+            return redirect(url_for('views.home'))
         
         # Handle the POST request (update an existing event)
         title = request.form.get('event_title')
@@ -146,18 +159,38 @@ def update_event(id):
         else:
             flash('Event update failed. Please provide a valid image or link.', 'error')
             return redirect(url_for('views.update_event'))
-    return render_template('update_event.html', user=current_user, title=title, description=description,
-                           date=date, event_image=image)
+    return render_template('event_update.html', user=current_user, event=event)
+
+
+@views.route('/delete_event/<id>', methods=['GET', 'POST'])
+def delete_event(id):
+    """Delete an event by its id"""
+    event = Event.query.filter_by(id=id).first()
+
+    if event:
+        try:
+            db.session.delete(event)
+            flash(f"Event {event.title} deleted succefully !", category='success')
+            db.session.commit()
+            return redirect(url_for('auth.profile'))
+        except Exception as e:
+            flash(f'An error occured when deleting {event.title}.', category='error')
+            return redirect(url_for('auth.profile'))
+    return render_template('profile.html', event=event)
+
+        
 
 @views.route('/event/<id>', methods=['GET', 'POST'])
 @login_required
 def event(id):
     """Get a specific event by its id"""
     event = Event.query.filter_by(id=id).first()
+    category = Category.query.filter_by(id=event.category_id).first()
 
     if event:
-        return render_template('event_details.html', user=current_user, event=event)
+        return render_template('event_details.html', user=current_user, event=event, category=category)
     return redirect(url_for('views.home'))
+
 
 @views.route('/manage_categories', methods=['GET', 'POST'])
 @login_required

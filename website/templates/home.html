@@ -18,10 +18,19 @@
 <!-- Search Bar with Filters -->
 <form method="GET" action="{{ url_for('views.home') }}" class="d-flex container" role="search">
   <div class="input-group mb-3">
-      <input style="display: block;" type="text" class="form-control me-2 search-input" placeholder="Search events by title or description..." name="search_query" value="{{ request.args.get('search_query', '') }}">
-      <select class="form-select me-2" name="category">
-            <option value="">All Categories</option>
-          <!-- Add category options dynamically -->
+    <input style="display: block;" type="text" class="form-control me-2 search-input" placeholder="Search events by title or description..." name="search_query" value="{{ request.args.get('search_query', '') }}">
+    <select class="form-select me-2" name="category">
+      <option value="">All Categories</option>
+      <!-- Add category options dynamically -->
+        {% if categories %}
+          {% for category in categories %}
+            <option value="{{ category.id }}" {% if request.args.get('category') == category.id %}selected{% endif %}>
+              <p>{{ category.category_name }}</p>
+            </option>
+          {% endfor %}
+        {% else %}
+        <h2>There are no categories!</h2>
+        {% endif %}
       </select>
       <button class="btn btn-outline-success search-button" type="submit">Search</button>
   </div>
@@ -92,7 +101,7 @@
 <!--Contac information-->
 <section id="contact" class="contact-section text-center py-5">
   <div class="my_pic">
-    <img src="../static/uploads/Sidiki.jpg"/>
+    <img src="../static/images/brehyma.jpg"/>
   </div>
   <div class="container">
       <h2>Contact Me</h2>

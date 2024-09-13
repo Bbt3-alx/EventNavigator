@@ -85,45 +85,54 @@ def sign_up():
             return redirect(url_for('views.home'))
     return render_template("sign_up.html", user=current_user)
 
-auth.route('/profile/<id>', methods=['GET', 'POST'])
-login_required
-def profile(id):
+@auth.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
     """Manage user profile"""
-    user = User.query.filter_by(id=id).first()
+    user = current_user
+    print(user.user_name)
 
-    if user:
-        if request.method == 'POST':
-            user_name = request.form.get('user_name')
-            email = request.form.get('email')
-            old_password = request.form.get('old_pasword')
-            new_password = request.form.get('new_password')
-            confirm_password = request.form.get('confirm_pasword')
+    if not user:
+        flash('This user don\'t exist !', category='error')
+        return redirect(url_for('views.home'))
+    
+    if request.method == 'POST':
+        user_name = request.form.get('user_name')
+        email = request.form.get('email')
+        old_password = request.form.get('old_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
 
-            user.user_name = user_name
-            user.email = email
-            if check_password_hash(old_password) != check_password_hash(user.password):
-                flash('Incorect password, please enter your old password.', category='error')
-            elif check_password_hash(old_password) == generate_password_hash(new_password):
-                flash('There is no difference between the old and the new password !', category='error')
-            elif new_password != confirm_password:
-                flash('Password are not same, please try again!', category='error')
-            else:
-                user.password = new_password
-            
-            db.session.add(user)
-
-            try:
-                db.session.commit()
-                flash('Profile updated !', category='success')
-                return redirect(url_for('profile'))
-            except Exception as e:
-                flash('An exception occured.', category='error')
-                return redirect(url_for('profile'))
+        # Update user info
+        user.user_name = user_name
+        user.email = email
+        
+        # Check if the old password matches the user's password
+        if not check_password_hash(user.password, old_password):
+            flash('Incorrect old password, please try again.', category='error')
+            return redirect(url_for('auth.profile'))
+        elif old_password == new_password:
+            flash('New password cannot be the same as the old password!', category='error')
+            return redirect(url_for('auth.profile'))
+        elif new_password != confirm_password:
+            flash('New password and confirmation do not match!', category='error')
+            return redirect(url_for('auth.profile'))
         else:
-            user = User.query.all()
-            my_events = Event.query.filter_by(created_by=id).all()
-    flash('This user don\'t exist !', category='error')
+            # Update the password if everything is correct
+            user.password = generate_password_hash(new_password, method='pbkdf2:sha256')
 
+        try:
+            db.session.commit()
+            flash('Profile updated successfully!', category='success')
+            return redirect(url_for('auth.profile'))
+        except Exception as e:
+            db.session.rollback() # Rollback in case of any error
+            flash('An error occurred while updating your profile. Please try again.', category='error')
+            return redirect(url_for('auth.profile'))
+
+    # Load user and their events
+    my_events = Event.query.filter_by(created_by=user.id).all()
+    
     return render_template('profile.html', user=user, my_events=my_events)
             
 

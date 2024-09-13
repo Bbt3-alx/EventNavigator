@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <div class="container d-flex justify-content-center">
-  <div class="card border-secondary container mb-3" style="max-width: 100%;">
+  <div class="card border-secondary mb-3" style="max-width: 100%;">
     <div class="row g-0">
       <div class="col-md-4">
         <img src="{{ event.event_image if event.event_image.startswith('http') else url_for('static', filename='uploads/' + event.event_image) or url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
@@ -12,6 +12,7 @@
           <h5 class="card-title">{{ event.title }}</h5>
           <p class="card-text">{{ event.description }}</p>
           <p class="card-text"><small class="text-body-secondary">Last update {{ event.updated_at }} </small></p>
+          <p class="card-text">Category: {{ category.category_name }}</p>
           <p class="card-text"><small class="text-body-primary">Posted by {{ user.user_name }} </small></p>
         </div>
       </div>
