@@ -168,13 +168,39 @@ div.col {
     border-radius: 50%;
     margin-bottom: 50px;
 }
-.fixed-bottom {
+body {
     position: relative;
-    bottom: 0px;
-    
+    min-height: 100vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem; /* Footer height */
 }
 
 .row {
     margin-left: auto;
     margin-right: auto;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+}
+
+#footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
 }

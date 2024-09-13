@@ -42,6 +42,12 @@ def home():
     return render_template("home.html", user=current_user, events=events, categories=categories)
 
 
+@views.route('/about', methods=['GET', 'POST'])
+def about():
+    """About me"""
+    return render_template('about.html', user=current_user)
+
+
 @views.route('/create_event', methods=['GET', 'POST'])
 @login_required
 def create_event():
