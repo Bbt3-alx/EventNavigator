@@ -16,3 +16,8 @@ alembic/
 # Ignore . file
 .env
 .bashrc
+
+activate
+portfolio
+event_navigator.sock
+

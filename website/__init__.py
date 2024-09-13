@@ -51,8 +51,8 @@ def create_app():
     from .models import User
 
     # Ensure the tables are created
-    # with app.app_context():
-    #    db.create_all()
+    with app.app_context():
+        db.create_all()
 
 
     # Setup LoginManager
