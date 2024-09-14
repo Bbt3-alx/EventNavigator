@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 import re
-from .models import User
-from .models import Event
-from .models import Category
-from .models import Registration
-from .models import Location
+from .models.user import User
+from .models.event import Event
+from .models.category import Category
+from .models.registration import Registration
+from .models.location import Location
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user

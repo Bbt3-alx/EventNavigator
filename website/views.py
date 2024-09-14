@@ -1,7 +1,9 @@
 import os
 from flask import Blueprint, render_template, url_for, redirect, request, flash, current_app
 from flask_login import login_required, current_user
-from .models import Event, Category, db
+from .models.event import Event
+from .models.category import Category
+from . import db
 from werkzeug.utils import secure_filename
 from urllib.parse import urlparse
 from sqlalchemy import or_

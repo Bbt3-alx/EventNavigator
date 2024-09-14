@@ -47,8 +47,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from . import models
-    from .models import User
+    from .models.user import User
 
     # Ensure the tables are created
     with app.app_context():
