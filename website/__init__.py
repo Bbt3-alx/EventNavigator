@@ -42,10 +42,13 @@ def create_app():
 
     from .views import views
     from .auth import auth
+    from website.api.v1.views import api_views
 
     # Register blueprints
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+    app.register_blueprint(api_views)
 
     from .models.user import User
 

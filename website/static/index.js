@@ -1,5 +1,8 @@
 $(document).ready( function() {
-    $("button#delete_event").click( function() {
-        console.log('Clicked!')
+    $(".search-input").on('keyUp', function() {
+        var value = $(this).val().toLowerCase();
+        $('.card-body').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
     });
 });
