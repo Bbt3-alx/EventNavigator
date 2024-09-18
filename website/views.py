@@ -1,13 +1,11 @@
 import os
-from flask import Blueprint, render_template, url_for, redirect, request, flash, current_app
+from flask import Blueprint, render_template, url_for, redirect, request, flash, current_app, jsonify
 from flask_login import login_required, current_user
 from .models.event import Event
 from .models.category import Category
 from . import db
 from werkzeug.utils import secure_filename
-from urllib.parse import urlparse
 from sqlalchemy import or_
-from sqlalchemy.sql.expression import func
 
 
 views = Blueprint('views', __name__, static_folder="static", template_folder="templates")
@@ -16,7 +14,7 @@ views = Blueprint('views', __name__, static_folder="static", template_folder="te
 @views.route('/', methods=['GET', 'POST'])
 def home():
     search_query = request.args.get('search_query', '')
-    selected_category = request.args.get('categry', '')
+    selected_category = request.args.get('category', '') 
 
     # Start with all events
     events = Event.query
@@ -64,6 +62,7 @@ def create_event():
         event_title = request.form.get('event_title')
         event_date = request.form.get('event_date')
         description = request.form.get('description')
+        location = request.form.get('location')
         
         image_source = request.form.get('imageSource')
         if image_source == 'upload':
@@ -81,6 +80,7 @@ def create_event():
                     date=event_date,
                     description=description,
                     event_image=filename,
+                    location = location,
                     created_by=current_user.id,
                     category_id=selected_category_id
                 )
@@ -225,3 +225,14 @@ def manage_categories():
     else:
         flash('You are not authorized to manage categories.', 'error')
         return redirect(url_for('views.home'))
+
+
+@views.route('/get_event_by_category/<id>', methods=['GET', 'POST'])
+def get_event_by_category(id):
+    """Retrieve all the event of a category"""
+    categories = Category.query.all()
+    events_by_category = Event.query.filter_by(category_id=id).all()
+
+    nb_event = len(events_by_category)
+
+    return render_template('manage_categories.html', user=current_user, categories=categories, events_by_category=events_by_category, nb_event=nb_event)

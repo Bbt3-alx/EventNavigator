@@ -9,17 +9,22 @@
             <input type="text" class="form-control" id="event_title" name="event_title" placeholder="Event title" required/>
         </div>
     
-        <div class="form-group">
+        <div>
             <label for="event_date">Date</label>
             <input type="date" class="form-control" id="event_date" name="event_date" placeholder="Date" required/>
         </div>
     
-        <div class="form-group">
+        <div>
             <label for="description">Description</label>
             <textarea name="description" id="description" class="form-control" placeholder="Write the event description." required></textarea>
         </div>
+
+        <div>
+            <label for="location">Location</label>
+            <input type="text" name="location" id="location" class="form-control" placeholder="Write the event location." required/>
+        </div>
     
-        <div class="form-group">
+        <div>
             <label for="category">Category</label>
             <select class="form-control" id="category" name="category">
                 {% for category in categories %}
@@ -27,8 +32,8 @@
                 {% endfor %}
             </select>
         </div>
-    </br>
-        <div class="form-group">
+        </br>
+        <div>
             <label for="image">Image Source:</label><br>
         
             <input type="radio" id="uploadImage" name="imageSource" value="upload" checked>
@@ -45,7 +50,7 @@
                 <input type="text" class="form-control" id="imageLinkInput" name="imageLinkInput" placeholder="Enter Image Link">
             </div>
         </div>
-    </br  >
+        </br  >
         <button type="submit" class="btn btn-outline-primary">Create Event</button>
     </form>
 </div>

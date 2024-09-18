@@ -2,10 +2,14 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <div class="container d-flex justify-content-center">
-  <div class="card border-secondary mb-3" style="max-width: 100%;">
+  <div class="card border-secondary mb-3" style="max-width: 100%; min-height: 250px;">
     <div class="row g-0">
       <div class="col-md-4">
+        {% if event.event_image != None %}
         <img src="{{ event.event_image if event.event_image.startswith('http') else url_for('static', filename='uploads/' + event.event_image) or url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
+        {% else %}
+        <img src="{{ url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
+        {% endif %}
       </div>
       <div class="col-md-8">
         <div class="card-body">

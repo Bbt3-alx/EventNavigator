@@ -17,6 +17,7 @@ def get_users():
 
     return make_response(jsonify(list_users), 200)
 
+
 @api_views.route('/users/<id>', methods=['GET'])
 def get_user(id):
     """get a specific user by its id"""

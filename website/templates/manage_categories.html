@@ -15,7 +15,7 @@
     <h4 class="container d-flex align-item-center">Existing Categories:</h4>
     <ol>
         {% for category in categories %}
-        <li>{{ category.category_name }}</li>
+        <a href="{{ url_for('views.get_event_by_category', id=category.id) }}"><li>{{ category.category_name }}</li></a>
         {% endfor %}
     </ol>
 </div>

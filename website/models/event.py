@@ -1,6 +1,6 @@
 from .base_model import BaseModel
 from .. import db
-from datetime import datetime   
+from datetime import datetime
 
 
 class Event(BaseModel):
