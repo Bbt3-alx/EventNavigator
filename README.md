@@ -70,13 +70,13 @@ MYSQL_DATABASE=event_navigator
 EventNavigator offers a RESTful API for developers. Here's a list of available endpoints:
 
 ## Retrieve all events:
-GET /api/v1/events
+`GET /api/v1/events`
 
 ## Retrieve a specific event:
-GET /api/v1/events/:id
+`GET /api/v1/events/:id`
 
 ## Create a new event (requires authentication):
-POST /api/v1/events
+`POST /api/v1/events`
 
 ## Contributing
 We welcome contributions to EventNavigator! Please follow these steps:
@@ -84,13 +84,13 @@ We welcome contributions to EventNavigator! Please follow these steps:
 ## Fork the repository.
 
 ## Create a new feature branch:
-git checkout -b features
+`git checkout -b features`
 
 ## Make your changes and commit:
-git commit -m "Add new feature"
+`git commit -m "Add new feature"`
 
 ## Push to the branch:
-git push origin features
+`git push origin features`
 
 ## Open a pull request and describe the changes in detail.
 
