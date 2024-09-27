@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+{% block title %}Events{% endblock %}
+{% block content %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4 container justify-content-center d-flex col-card">
+    {% if events_by_category %}
+      {% for event in events_by_category %}
+        <div class="col">
+          <div class="card text-center h-100">
+            <div class="card-image">
+              <a href="{{ url_for('views.event', id=event.id) }}">
+                {% if event.event_image != None %}
+                <img src="{{ event.event_image if event.event_image.startswith('http') else url_for('static', filename='uploads/' + event.event_image) or url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
+                {% else %}
+                <img src="{{ url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
+                {% endif %}
+              </a>
+            </div>
+  
+            <div class="card-body">
+              <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.description[:50] }}...</p>
+              <p class="card-text"><i class="fas fa-calendar-alt"></i> {{ event.date }}</p>
+              <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
+            </div>
+            <div>
+              <a href="{{ url_for('views.event', id=event.id) }}" class="btn btn-primary">Show Event</a>
+            </div>
+          </br>
+            <div class="card-footer">
+              <small class="text-muted">Created by {{ event.creator.user_name }}</small>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h3>No events found for this category.</h3>
+    {% endif %}
+  </div>
+
+{% endblock %}

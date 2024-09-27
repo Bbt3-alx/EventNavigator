@@ -1,4 +1,4 @@
-from .base_model import BaseModel
+'''from .base_model import BaseModel
 from .. import db
 
 
@@ -15,3 +15,4 @@ class Location(BaseModel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+'''

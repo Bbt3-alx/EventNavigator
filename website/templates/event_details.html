@@ -15,9 +15,10 @@
         <div class="card-body">
           <h5 class="card-title">{{ event.title }}</h5>
           <p class="card-text">{{ event.description }}</p>
-          <p class="card-text"><small class="text-body-secondary">Last update {{ event.updated_at }} </small></p>
+          <p class="card-text">Date : {{ event.date }}</p>
           <p class="card-text">Category: {{ category.category_name }}</p>
-          <p class="card-text"><small class="text-body-primary">Posted by {{ user.user_name }} </small></p>
+          <p class="card-text"><small class="text-body-secondary">Last update {{ event.updated_at }} </small></p>
+          <h6 class="card-text"><small class="text-body-primary">Posted by {{ created_by }} </small></h6>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}SignUp{% endblock %}
+{% block title %}User profile{% endblock %}
 {% block content %}
 
     <div class="container d-flex justify-content-center">
@@ -29,36 +29,5 @@
             </div>
         </form>
     </div>
-
-    <!--PROFILE SETINGS-->
-    <div class="row row-cols-1 row-cols-md-3 g-4 container col-card">
-        {% if my_events %}
-            {% for event in my_events %}
-                <div class="col">
-                <div class="card text-center h-100">
-                    <a href="{{ url_for('views.event', id=event.id) }}">
-                    <img src="{{ event.event_image if event.event_image.startswith('http') else url_for('static', filename='uploads/' + event.event_image) or url_for('static', filename='images/seminaire1.jpg') }}" class="card-img-top" alt="event_image">
-                    </a>
-                    <div class="card-body">
-                    <h5 class="card-title">{{ event.title }}</h5>
-                    <p class="card-text">{{ event.description[:50] }}...</p>
-                    <p class="card-text"><i class="fas fa-calendar-alt"></i> {{ event.date }}</p>
-                    <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
-                    <div class="card-body">
-                        <a href="{{ url_for('views.update_event', id=event.id) }}" class="btn btn-primary">Edit</a>
-                        <a href="{{ url_for('views.delete_event', id=event.id) }}" id="delete_event" class="btn btn-danger">Delete</a>
-                      </div>
-                    </div>
-                    <div class="card-footer">
-                    <small class="text-muted">Last updated {{ event.updated_at }}</small>
-                    </div>
-                </div>
-                </div>
-            {% endfor %}
-        {% else %}
-          <h3>You haven't posted any event yet !.</h3>
-        {% endif %}
-      </div>
-
 
 {% endblock %}

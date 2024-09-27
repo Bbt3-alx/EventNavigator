@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Manage Categories{% endblock %}
 {% block content %}
-<h3 class="container d-flex">Manage Categories</h3>
 <div class="container ">
-    <form method="POST">
-        <div class="form-group">
-            <label for="category_name">Add New Category</label>
-            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Category Name" required>
-        </div>
-    </br>
-        <button type="submit" class="btn btn-primary">Add Category</button>
-    </form>
+    {% if user.is_authenticated %}
+        <h3 class="container d-flex">Manage Categories</h3>
+        <form method="POST">
+            <div class="form-group">
+                <label for="category_name">Add New Category</label>
+                <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Category Name" required>
+            </div>
+        </br>
+            <button type="submit" class="btn btn-primary">Add Category</button>
+        </form>
+        <h3 class="container d-flex align-item-center">Existing Categories:</h3>
+    {% else %}
+    <h3 class="container d-flex align-item-center">Available Categories:</h3>
+    {% endif %}
+
     <!-- Display existing categories -->
-    <h4 class="container d-flex align-item-center">Existing Categories:</h4>
-    <ol>
+    <ol id="categories_list">
         {% for category in categories %}
-        <a href="{{ url_for('views.get_event_by_category', id=category.id) }}"><li>{{ category.category_name }}</li></a>
+        <h5><a href="{{ url_for('views.events_by_category', id=category.id) }}"><li>{{ category.category_name }}</li></a></h5>
         {% endfor %}
     </ol>
 </div>

@@ -11,6 +11,10 @@
   <div class="overlay-content text-center">
       <h1 class="display-4 text-white">Navigate Your Way to the Best Events</h1>
       <p class="lead text-white">Stay updated with exciting events near you or share your own events with others, all in one place.</p>
+    </br>
+    {% if not user.is_authenticated %}
+      <div><a class="btn btn-outline-primary" id="signUp" href="/sign-up">Get Started</a></div>
+    {% endif %}
   </div>
 </section>
 
@@ -69,7 +73,7 @@
           </div>
         </br>
           <div class="card-footer">
-            <small class="text-muted">Last updated {{ event.updated_at }}</small>
+            <small class="text-muted">Created by {{ event.creator.user_name }}</small>
           </div>
         </div>
       </div>
@@ -108,7 +112,7 @@
   </div>
 </section>
 
-<!--Contac information-->
+<!--Contact information-->
 <section id="contact" class="contact-section text-center py-5">
   <div class="my_pic">
     <img src="../static/images/brehyma.jpg"/>

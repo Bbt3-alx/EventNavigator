@@ -2,10 +2,10 @@
 
 from . import api_views, api_key_required
 from website.models.event import Event
-from website.models.location import Location
+#from website.models.location import Location
 from website import db
 from .errors import not_found
-from flask import abort, jsonify, make_response, request
+from flask import jsonify, make_response, request
 from werkzeug.utils import secure_filename
 import os
 from flask import current_app
@@ -23,7 +23,7 @@ def get_events():
     query = Event.query
 
     if location_query:
-        location = Location.query.filter_by(location_name=location_query).first()
+        location = query.filter_by(location=location_query).first()
         query = query.filter_by(location_id=location.id)
     
     if date_query:

@@ -1,11 +1,9 @@
 import uuid
 from flask_login import UserMixin
 from datetime import datetime
-import sqlalchemy
-from sqlalchemy import Column, String, DateTime
 from .. import db
 
-time = "%Y-%m-%d-%H:%M:%S.%f"
+time = "%Y-%m-%d-%H:%M"
 
 
 class BaseModel(db.Model, UserMixin):

@@ -2,7 +2,7 @@
 {% block title %}Post Events{% endblock %}
 {% block content %}
 <div class="container d-flex justify-content-center">
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
         <h3 align="center">Edit Event</h3>
         {% if event %}
         <div class="form-group">
@@ -33,7 +33,7 @@
                 <input type="file" class="form-control" id="file" name="file">
             </div>
         
-            <div id="linkSection" style="display: none;">
+            <div id="linkSection">
                 <input type="text" class="form-control" id="imageLinkInput" name="imageLinkInput" placeholder="{{event.event_image}}">
             </div>
         </div>

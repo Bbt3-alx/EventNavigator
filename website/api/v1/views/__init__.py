@@ -48,5 +48,5 @@ def validate_api_key(api_key, secret):
 from .api_user import *
 from .api_event import *
 from .api_categories import *
-from .api_location import *
+#from .api_location import *
 from .api_login import *

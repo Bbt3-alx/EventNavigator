@@ -1,4 +1,5 @@
 from .base_model import BaseModel
+from .registration import Registration
 from .. import db
 from datetime import datetime
 
@@ -9,10 +10,10 @@ class Event(BaseModel):
     title = db.Column(db.String(250))
     description = db.Column(db.String(1024))
     date = db.Column(db.DateTime, default = datetime.now())
-    event_image = db.Column(db.String(256))
+    event_image = db.Column(db.String(1024))
+    location = db.Column(db.String(128))
     created_by = db.Column(db.String(60), db.ForeignKey('users.id'))
     category_id = db.Column(db.String(60), db.ForeignKey('categories.id'))
-    locations_id = db.Column(db.String(60), db.ForeignKey('locations.id'))
     registrations = db.relationship('Registration', backref='event')
 
     def __init__(self, *args, **kwargs):

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Post Events{% endblock %}
 {% block content %}
-<div class="container min-vh-100 d-flex container justify-content-center align-item-center">
-    <form method="POST" enctype="multipart/form-data">
+<div class="min-vh-100 d-flex container justify-content-center align-item-center">
+    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
         <h3 align="center">New Event</h3>
         <div class="form-group">
             <label for="event_title">Title</label>
