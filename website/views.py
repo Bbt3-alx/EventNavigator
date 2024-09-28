@@ -212,7 +212,6 @@ def manage_categories():
     # Fetch all categories
     categories = Category.query.all()
     if current_user.is_authenticated:
-        if not current_user.is_admin:
             if request.method == 'POST':
                 category_name = request.form.get('category_name')
 
@@ -226,11 +225,9 @@ def manage_categories():
                     db.session.add(new_category)
                     db.session.commit()
                     flash(f'Category "{new_category.category_name}" created successfully!', 'success')
+                    redirect(url_for('views.manage_categories'))
 
             return render_template('manage_categories.html', user=current_user, categories=categories)
-        else:
-            flash('You are not authorized to manage categories.', 'error')
-            return redirect(url_for('views.home'))
     else:
         return render_template('manage_categories.html', user=current_user, categories=categories)
 

@@ -2,7 +2,7 @@
 {% block title %}Manage Categories{% endblock %}
 {% block content %}
 <div class="container ">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user.is_admin %}
         <h3 class="container d-flex">Manage Categories</h3>
         <form method="POST">
             <div class="form-group">
